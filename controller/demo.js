@@ -7,9 +7,11 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 var { ObjectId } = require('mongodb')
 
+
 //insert a product
 const addproduct = async(req, res) => {
     try {
+        // console.log(req.file)
         const addprod = new product({
             productname: req.body.productname,
             price: req.body.price,
@@ -17,8 +19,7 @@ const addproduct = async(req, res) => {
             sub_category: req.body.sub_category,
             status: req.body.status,
             userid: req.user._id,
-            image: req.body.image,
-            category: req.body.category
+            image: "https://nft9.herokuapp.com/" + req.file.path
         })
         let insertprod = await addprod.save();
         res.send(insertprod)

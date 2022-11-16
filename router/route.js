@@ -3,12 +3,30 @@ const router = express.Router();
 const { verifySignup, Specificsubcategory, Specificcategory, signIn, allrole, addrole, deleterole, updaterole, allproduct, addproduct, deleteproduct, updateproduct, allcategory, addcategory, deletecategory, updatecategory } = require('../controller/demo')
 const { checkMissingField, checkDuplicateEmail } = require("../middleware/sign.validate");
 const verifyToken = require("../middleware/auth")
+const multer = require('multer');
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, './uploads/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, new Date().toISOString().replace(/:|\./g, '') + ' - ' + file.originalname)
+    }
+});
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+}
 
+//upload name k folder may files save hogi
+const upload = multer({ storage: storage, fileFilter: fileFilter })
 
 //Get All Product
 router.get("/api/allproduct", allproduct);
 //Insert A Product
-router.post("/api/addproduct", [verifyToken], addproduct);
+router.post("/api/addproduct", [verifyToken, upload.single('productImage')], addproduct);
 //Delete A Product
 router.delete("/api/deleteproduct", [verifyToken], deleteproduct);
 //Update A Product

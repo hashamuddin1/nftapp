@@ -4,6 +4,7 @@ require('dotenv').config();
 const router = require('./router/route')
 const port = process.env.PORT
 require('./db/prodb');
+app.use('/uploads', express.static('uploads'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
