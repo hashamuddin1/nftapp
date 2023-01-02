@@ -19,7 +19,7 @@ const addproduct = async(req, res) => {
             sub_category: req.body.sub_category,
             status: req.body.status,
             userid: req.user._id,
-            image: "https://nft9.herokuapp.com/" + req.file.path
+            image: "localhost:7000/" + req.file.path
         })
         let insertprod = await addprod.save();
         res.send(insertprod)
