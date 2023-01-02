@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 require('dotenv').config();
-const hostname='0.0.0.0'
 const router = require('./router/route')
 const port = process.env.PORT
 require('./db/prodb');
@@ -12,5 +11,5 @@ app.use(express.urlencoded({ extended: true }))
 app.use([router])
 
 app.listen(port, () => {
-    console.log(`Our Server is running at port http://${hostname}:${port}`)
+    console.log(`Our Server is running at port ${port}`)
 })
