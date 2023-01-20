@@ -18,8 +18,13 @@ const addproduct = async(req, res) => {
             category: req.body.category,
             sub_category: req.body.sub_category,
             status: req.body.status,
+<<<<<<< HEAD
             owner_id: req.user._id,
             image: "https://nft9.herokuapp.com/" + req.file.path
+=======
+            userid: req.user._id,
+            image: "localhost:7000/" + req.file.path
+>>>>>>> 6b0979f64b297e808ebc9c58177059783c397cf7
         })
         let insertprod = await addprod.save();
         res.send(insertprod)
@@ -340,4 +345,8 @@ const ownerImages = async(req, res) => {
 }
 
 
+<<<<<<< HEAD
 module.exports = { ownerImages, changeOwner, singleproduct, Specificcategory, Specificsubcategory, verifySignup, signIn, allrole, addrole, deleterole, updaterole, allcategory, addcategory, deletecategory, updatecategory, addproduct, allproduct, deleteproduct, updateproduct }
+=======
+module.exports = { Specificcategory, Specificsubcategory, verifySignup, signIn, allrole, addrole, deleterole, updaterole, allcategory, addcategory, deletecategory, updatecategory, addproduct, allproduct, deleteproduct, updateproduct }
+>>>>>>> 6b0979f64b297e808ebc9c58177059783c397cf7
