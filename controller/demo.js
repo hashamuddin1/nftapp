@@ -11,14 +11,14 @@ var { ObjectId } = require('mongodb')
 //insert a product
 const addproduct = async(req, res) => {
     try {
-        // console.log(req.file)
+        console.log(req.file)
         const addprod = new product({
             productname: req.body.productname,
             price: req.body.price,
             category: req.body.category,
             sub_category: req.body.sub_category,
             status: req.body.status,
-            userid: req.user._id,
+            owner_id: req.user._id,
             image: "https://nft9.herokuapp.com/" + req.file.path
         })
         let insertprod = await addprod.save();
@@ -271,6 +271,20 @@ const verifySignup = async(req, res) => {
     }
 }
 
+//single product
+const singleproduct = async(req, res, next) => {
+    try {
+        const _id = req.query.id
+        const singleprod = await product.find({ _id })
+        res.send(singleprod)
+
+    } catch (e) {
+        console.log(e)
+        res.status(400).send(e.message)
+    }
+}
+
+
 //Sign In
 const signIn = async(req, res) => {
     try {
@@ -290,7 +304,7 @@ const signIn = async(req, res) => {
                 let response = res.statusCode;
                 let messages = "Login Successful ";
                 let status = true;
-                let Data = { name: user.name, tokens };
+                let Data = { name: user.first_name, tokens };
                 return res.status(200).send({ response: response, message: messages, status: status, Data: Data })
             }
             helperfunction()
@@ -303,6 +317,27 @@ const signIn = async(req, res) => {
     }
 }
 
+//changeOwner
+const changeOwner = async(req, res) => {
+    try {
+        const changeowner = await product.findByIdAndUpdate({ _id: req.body.imageId }, { owner_id: req.user._id }, { new: true })
+        res.status(200).send(changeowner)
+    } catch (e) {
+        console.log(e)
+        res.status(400).send(e.message);
+    }
+}
+
+//ownerImages
+const ownerImages = async(req, res) => {
+    try {
+        const ownerimages = await product.find({ owner_id: req.user._id })
+        res.status(200).send(ownerimages)
+    } catch (e) {
+        console.log(e)
+        res.status(400).send(e.message)
+    }
+}
 
 
-module.exports = { Specificcategory, Specificsubcategory, verifySignup, signIn, allrole, addrole, deleterole, updaterole, allcategory, addcategory, deletecategory, updatecategory, addproduct, allproduct, deleteproduct, updateproduct }
+module.exports = { ownerImages, changeOwner, singleproduct, Specificcategory, Specificsubcategory, verifySignup, signIn, allrole, addrole, deleterole, updaterole, allcategory, addcategory, deletecategory, updatecategory, addproduct, allproduct, deleteproduct, updateproduct }

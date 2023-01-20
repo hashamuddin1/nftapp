@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { verifySignup, Specificsubcategory, Specificcategory, signIn, allrole, addrole, deleterole, updaterole, allproduct, addproduct, deleteproduct, updateproduct, allcategory, addcategory, deletecategory, updatecategory } = require('../controller/demo')
+const { ownerImages, changeOwner, singleproduct, verifySignup, Specificsubcategory, Specificcategory, signIn, allrole, addrole, deleterole, updaterole, allproduct, addproduct, deleteproduct, updateproduct, allcategory, addcategory, deletecategory, updatecategory } = require('../controller/demo')
 const { checkMissingField, checkDuplicateEmail } = require("../middleware/sign.validate");
 const verifyToken = require("../middleware/auth")
 const multer = require('multer');
@@ -25,6 +25,12 @@ const upload = multer({ storage: storage, fileFilter: fileFilter })
 
 //Get All Product
 router.get("/api/allproduct", allproduct);
+//Change Owner
+router.post("/api/changeOwner", [verifyToken], changeOwner);
+//Get Single Product
+router.get("/api/singleproduct", singleproduct);
+//Get Single Product
+router.get("/api/ownerImages", [verifyToken], ownerImages);
 //Insert A Product
 router.post("/api/addproduct", [verifyToken, upload.single('productImage')], addproduct);
 //Delete A Product

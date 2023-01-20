@@ -22,10 +22,6 @@ const product_schema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: "category"
     },
-    userid: {
-        type: Schema.Types.ObjectId,
-        ref: "user"
-    },
     status: {
         type: Boolean,
         default: true
@@ -34,6 +30,10 @@ const product_schema = new mongoose.Schema({
         type: String,
         required: true
     },
+    owner_id: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
+    }
 })
 
 //creating collection
